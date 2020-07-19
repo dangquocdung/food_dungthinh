@@ -202,7 +202,6 @@ return [
     'app_setting_paypal_username_placeholder' => 'PayPal Username Here',
     'app_setting_pt' => 'Portuguese',
     'app_setting_vi' => 'Tiếng Việt',
-
     'app_setting_red' => 'Red',
     'app_setting_scaffold_color' => 'Background Color for bright theme',
     'app_setting_scaffold_color_help' => 'Insert Background Color for bright theme',

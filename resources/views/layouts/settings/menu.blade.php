@@ -99,7 +99,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
+                <a href="{!! url('settings/translation/vi') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
                     <i class="fa fa-language"></i> {{trans('lang.app_setting_translation')}}
                 </a>
             </li>

@@ -327,7 +327,7 @@
                     @if($icons)<i class="nav-icon fa fa-language"></i> @endif <p>{{trans('lang.app_setting_localisation')}}</p></a>
             </li>
             <li class="nav-item">
-                <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'active' : '' }}">
+                <a href="{!! url('settings/translation/vi') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'active' : '' }}">
                     @if($icons) <i class="nav-icon fa fa-language"></i> @endif <p>{{trans('lang.app_setting_translation')}}</p></a>
             </li>
             @can('currencies.index')
