@@ -1,11 +1,11 @@
 <?php 
 
 return [
-    'back' => 'Go Back',
-    'back_to_home' => 'Back to profile',
+    'back' => 'Quay lại',
+    'back_to_home' => 'Quay lại hồ sơ',
     'page' => [
-        'not_found' => 'Page not found',
+        'not_found' => 'Không tìm thấy trang',
     ],
-    'permission' => 'User does not have the permission',
-    'store_disabled' => 'store_disabled',
+    'permission' => 'Người dùng không có quyền',
+    'store_disabled' => 'lưu trữ',
 ];
