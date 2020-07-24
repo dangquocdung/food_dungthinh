@@ -879,7 +879,7 @@ return [
     'role_name_placeholder' => 'Nhập tên vai trò',
     'role_plural' => 'Vai trò',
     'role_table' => 'Danh sách vai trò',
-    'save' => 'Tiết kiệm',
+    'save' => 'Lưu',
     'saved_successfully' => ':operator đã lưu thành công',
     'search' => 'Tìm kiếm',
     'select' => 'Lựa chọn',
