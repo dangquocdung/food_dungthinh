@@ -542,7 +542,7 @@ return [
     'food_order_quantity_placeholder' => 'Thêm số lượng',
     'food_order_table' => 'Danh sách đơn hàng món',
     'food_order_updated_at' => 'Cập nhật tại',
-    'food_plural' => 'Món ngon',
+    'food_plural' => 'Món chính',
     'food_price' => 'Giá bán',
     'food_price_help' => 'Thêm giá',
     'food_price_placeholder' => 'Thêm giá',
