@@ -244,7 +244,7 @@
         <div class="form-group row ">
             {!! Form::label('admin_commission', trans("lang.restaurant_admin_commission"), ['class' => 'col-3 control-label text-right']) !!}
             <div class="col-9">
-                {!! Form::number('admin_commission', null,  ['class' => 'form-control', 'step'=>'any', 'placeholder'=>  trans("lang.restaurant_admin_commission_placeholder", 'value'=>'10')]) !!}
+                {!! Form::number('admin_commission', null,  ['class' => 'form-control', 'step'=>'any', 'placeholder'=>  trans("lang.restaurant_admin_commission_placeholder", 'value'=>10)]) !!}
                 <div class="form-text text-muted">
                     {{ trans("lang.restaurant_admin_commission_help") }}
                 </div>
