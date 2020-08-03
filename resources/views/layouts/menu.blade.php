@@ -139,6 +139,11 @@
     </li>
 @endcan
 
+@can('drivers.index')
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('drivers*') ? 'active' : '' }}" href="{!! route('drivers.index') !!}">@if($icons)<i class="nav-icon fa fa-car"></i>@endif<p>{{trans('lang.driver_plural')}} <span class="right badge badge-danger">New</span> </p></a>
+    </li>
+@endcan
 
 @can('faqs.index')
     <li class="nav-item has-treeview {{ Request::is('faqCategories*') || Request::is('faqs*') ? 'menu-open' : '' }}">
@@ -175,8 +180,8 @@
 @endcan
 
 @can('payments.index')
-    <li class="nav-item has-treeview {{ Request::is('drivers*') || Request::is('earnings*') || Request::is('driversPayouts*') || Request::is('restaurantsPayouts*') || Request::is('payments*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ Request::is('drivers*') || Request::is('earnings*') || Request::is('driversPayouts*') || Request::is('restaurantsPayouts*') || Request::is('payments*') ? 'active' : '' }}"> @if($icons)
+    <li class="nav-item has-treeview {{ Request::is('earnings*') || Request::is('driversPayouts*') || Request::is('restaurantsPayouts*') || Request::is('payments*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ Request::is('earnings*') || Request::is('driversPayouts*') || Request::is('restaurantsPayouts*') || Request::is('payments*') ? 'active' : '' }}"> @if($icons)
                 <i class="nav-icon fa fa-credit-card"></i>@endif
             <p>{{trans('lang.payment_plural')}}<i class="right fa fa-angle-left"></i>
             </p>
@@ -187,13 +192,6 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('payments*') ? 'active' : '' }}" href="{!! route('payments.index') !!}">@if($icons)
                             <i class="nav-icon fa fa-money"></i>@endif<p>{{trans('lang.payment_plural')}}</p></a>
-                </li>
-            @endcan
-
-            @can('drivers.index')
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::is('drivers*') ? 'active' : '' }}" href="{!! route('drivers.index') !!}">@if($icons)
-                            <i class="nav-icon fa fa-car"></i>@endif<p>{{trans('lang.driver_plural')}} <span class="right badge badge-danger">New</span></p></a>
                 </li>
             @endcan
 
@@ -327,7 +325,7 @@
                     @if($icons)<i class="nav-icon fa fa-language"></i> @endif <p>{{trans('lang.app_setting_localisation')}}</p></a>
             </li>
             <li class="nav-item">
-                <a href="{!! url('settings/translation/vi') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'active' : '' }}">
+                <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'active' : '' }}">
                     @if($icons) <i class="nav-icon fa fa-language"></i> @endif <p>{{trans('lang.app_setting_translation')}}</p></a>
             </li>
             @can('currencies.index')

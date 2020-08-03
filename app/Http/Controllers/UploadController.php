@@ -84,7 +84,7 @@ class UploadController extends Controller
                 ->withCustomProperties(['uuid' => $input['uuid'], 'user_id' => auth()->id()])
                 ->toMediaCollection($input['field']);
         } catch (ValidatorException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendResponse(false, $e->getMessage());
         }
     }
 
