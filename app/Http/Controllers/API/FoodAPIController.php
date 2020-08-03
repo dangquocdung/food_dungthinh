@@ -11,6 +11,7 @@ namespace App\Http\Controllers\API;
 
 
 use App\Criteria\Foods\NearCriteria;
+use App\Criteria\Foods\FoodsOfCategoriesCriteria;
 use App\Criteria\Foods\FoodsOfCuisinesCriteria;
 use App\Criteria\Foods\TrendingWeekCriteria;
 use App\Http\Controllers\Controller;
@@ -72,6 +73,30 @@ class FoodAPIController extends Controller
 
 //            $this->foodRepository->orderBy('closed');
 //            $this->foodRepository->orderBy('area');
+            $foods = $this->foodRepository->all();
+
+        } catch (RepositoryException $e) {
+            return $this->sendError($e->getMessage());
+        }
+
+        return $this->sendResponse($foods->toArray(), 'Foods retrieved successfully');
+    }
+
+    /**
+     * Display a listing of the Food.
+     * GET|HEAD /foods/categories
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function categories(Request $request)
+    {
+        try{
+            $this->foodRepository->pushCriteria(new RequestCriteria($request));
+            $this->foodRepository->pushCriteria(new LimitOffsetCriteria($request));
+            $this->foodRepository->pushCriteria(new FoodsOfCuisinesCriteria($request));
+            $this->foodRepository->pushCriteria(new FoodsOfCategoriesCriteria($request));
+
             $foods = $this->foodRepository->all();
 
         } catch (RepositoryException $e) {

@@ -40,6 +40,7 @@ Route::resource('categories', 'API\CategoryAPIController');
 Route::resource('restaurants', 'API\RestaurantAPIController');
 
 Route::resource('faq_categories', 'API\FaqCategoryAPIController');
+Route::get('foods/categories', 'API\FoodAPIController@categories');
 Route::resource('foods', 'API\FoodAPIController');
 Route::resource('galleries', 'API\GalleryAPIController');
 Route::resource('food_reviews', 'API\FoodReviewAPIController');
