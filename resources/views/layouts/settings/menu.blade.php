@@ -99,7 +99,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{!! url('settings/translation/vi') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
+                <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
                     <i class="fa fa-language"></i> {{trans('lang.app_setting_translation')}}
                 </a>
             </li>
@@ -135,6 +135,12 @@
             <li class="nav-item">
                 <a href="{!! url('settings/mobile/colors') !!}" class="nav-link {{  Request::is('settings/mobile/colors*') ? 'selected' : '' }}">
                     <i class="fa fa-inbox"></i> {{trans('lang.mobile_colors')}}
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{!! url('settings/mobile/home') !!}" class="nav-link {{  Request::is('settings/mobile/home*') ? 'selected' : '' }}">
+                    <i class="fa fa-home"></i> {{trans('lang.mobile_home')}}
                 </a>
             </li>
 

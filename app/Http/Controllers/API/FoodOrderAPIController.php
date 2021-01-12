@@ -41,7 +41,7 @@ class FoodOrderAPIController extends Controller
             $this->foodOrderRepository->pushCriteria(new RequestCriteria($request));
             $this->foodOrderRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $foodOrders = $this->foodOrderRepository->all();
 

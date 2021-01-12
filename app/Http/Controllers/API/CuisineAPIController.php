@@ -41,7 +41,7 @@ class CuisineAPIController extends Controller
             $this->cuisineRepository->pushCriteria(new RequestCriteria($request));
             $this->cuisineRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $cuisines = $this->cuisineRepository->all();
 

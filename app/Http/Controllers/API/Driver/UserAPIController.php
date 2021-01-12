@@ -1,10 +1,9 @@
 <?php
 /**
  * File name: UserAPIController.php
- * Last modified: 2020.05.04 at 09:04:09
+ * Last modified: 2020.05.21 at 17:25:21
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
- *
  */
 
 namespace App\Http\Controllers\API\Driver;
@@ -130,10 +129,12 @@ class UserAPIController extends Controller
             [
                 'default_tax' => '',
                 'default_currency' => '',
+                'default_currency_decimal_digits' => '',
                 'app_name' => '',
                 'currency_right' => '',
                 'enable_paypal' => '',
                 'enable_stripe' => '',
+                'enable_razorpay' => '',
                 'main_color' => '',
                 'main_dark_color' => '',
                 'second_color' => '',
@@ -143,6 +144,7 @@ class UserAPIController extends Controller
                 'scaffold_dark_color' => '',
                 'scaffold_color' => '',
                 'google_maps_key' => '',
+                'fcm_key' => '',
                 'mobile_language' => '',
                 'app_version' => '',
                 'enable_version' => '',

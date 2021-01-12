@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::get('payments/failed', 'PayPalController@index')->name('payments.failed');
 Route::get('payments/razorpay/checkout', 'RazorPayController@checkout');
-Route::post('payments/razorpay/pay-success/{userId}/{deliveryAddressId?}', 'RazorPayController@paySuccess');
+Route::post('payments/razorpay/pay-success/{userId}/{deliveryAddressId?}/{couponCode?}', 'RazorPayController@paySuccess');
 Route::get('payments/razorpay', 'RazorPayController@index');
 
 Route::get('payments/paypal/express-checkout', 'PayPalController@getExpressCheckout')->name('paypal.express-checkout');
@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     ]);
 
     Route::post('restaurants/remove-media', 'RestaurantController@removeMedia');
+    Route::get('requestedRestaurants', 'RestaurantController@requestedRestaurants')->name('requestedRestaurants.index'); //adeed
     Route::resource('restaurants', 'RestaurantController')->except([
         'show'
     ]);
@@ -179,4 +180,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('extras', 'ExtraController')->except([
         'show'
     ]);
+    Route::resource('coupons', 'CouponController')->except([
+        'show'
+    ]);
+    Route::post('slides/remove-media','SlideController@removeMedia');
+    Route::resource('slides', 'SlideController')->except([
+        'show'
+    ]);
 });
+

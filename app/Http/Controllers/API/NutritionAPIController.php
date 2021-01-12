@@ -41,7 +41,7 @@ class NutritionAPIController extends Controller
             $this->nutritionRepository->pushCriteria(new RequestCriteria($request));
             $this->nutritionRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $nutrition = $this->nutritionRepository->all();
 

@@ -143,10 +143,23 @@ class UserAPIController extends Controller
                 'scaffold_dark_color' => '',
                 'scaffold_color' => '',
                 'google_maps_key' => '',
+                'fcm_key' => '',
                 'mobile_language' => '',
                 'app_version' => '',
                 'enable_version' => '',
                 'distance_unit' => '',
+                'home_section_1'=> '',
+                'home_section_2'=> '',
+                'home_section_3'=> '',
+                'home_section_4'=> '',
+                'home_section_5'=> '',
+                'home_section_6'=> '',
+                'home_section_7'=> '',
+                'home_section_8'=> '',
+                'home_section_9'=> '',
+                'home_section_10'=> '',
+                'home_section_11'=> '',
+                'home_section_12'=> '',
             ]
         );
 

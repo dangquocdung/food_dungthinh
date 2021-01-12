@@ -11,10 +11,10 @@ namespace App\Http\Controllers\API;
 
 
 use App\Criteria\Categories\CategoriesOfCuisinesCriteria;
+use App\Criteria\Categories\CategoriesOfRestaurantCriteria;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use Flash;
 use Illuminate\Http\Request;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -43,12 +43,13 @@ class CategoryAPIController extends Controller
      */
     public function index(Request $request)
     {
-        try{
+        try {
             $this->categoryRepository->pushCriteria(new RequestCriteria($request));
             $this->categoryRepository->pushCriteria(new LimitOffsetCriteria($request));
             $this->categoryRepository->pushCriteria(new CategoriesOfCuisinesCriteria($request));
+            $this->categoryRepository->pushCriteria(new CategoriesOfRestaurantCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $categories = $this->categoryRepository->all();
 
@@ -59,7 +60,7 @@ class CategoryAPIController extends Controller
      * Display the specified Category.
      * GET|HEAD /categories/{id}
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -97,10 +98,10 @@ class CategoryAPIController extends Controller
                 $mediaItem->copy($category, 'image');
             }
         } catch (ValidatorException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($category->toArray(), __('lang.saved_successfully',['operator' => __('lang.category')]));
+        return $this->sendResponse($category->toArray(), __('lang.saved_successfully', ['operator' => __('lang.category')]));
     }
 
     /**
@@ -136,7 +137,7 @@ class CategoryAPIController extends Controller
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($category->toArray(), __('lang.updated_successfully',['operator' => __('lang.category')]));
+        return $this->sendResponse($category->toArray(), __('lang.updated_successfully', ['operator' => __('lang.category')]));
 
     }
 
@@ -157,6 +158,6 @@ class CategoryAPIController extends Controller
 
         $category = $this->categoryRepository->delete($id);
 
-        return $this->sendResponse($category, __('lang.deleted_successfully',['operator' => __('lang.category')]));
+        return $this->sendResponse($category, __('lang.deleted_successfully', ['operator' => __('lang.category')]));
     }
 }

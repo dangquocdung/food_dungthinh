@@ -23,14 +23,18 @@
 @endcan
 
 @can('restaurants.index')
-    <li class="nav-item has-treeview {{ (Request::is('restaurants*') || Request::is('galleries*') || Request::is('restaurantReviews*')) && !Request::is('restaurantsPayouts*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ (Request::is('restaurants*') || Request::is('galleries*') || Request::is('restaurantReviews*')) && !Request::is('restaurantsPayouts*')? 'active' : '' }}"> @if($icons)
+    <li class="nav-item has-treeview {{ (Request::is('restaurants*') || Request::is('requestedRestaurants*') || Request::is('galleries*') || Request::is('restaurantReviews*')) && !Request::is('restaurantsPayouts*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ (Request::is('restaurants*') || Request::is('requestedRestaurants*') || Request::is('galleries*') || Request::is('restaurantReviews*')) && !Request::is('restaurantsPayouts*')? 'active' : '' }}"> @if($icons)
                 <i class="nav-icon fa fa-cutlery"></i>@endif
             <p>{{trans('lang.restaurant_plural')}} <i class="right fa fa-angle-left"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             @can('restaurants.index')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('requestedRestaurants*') ? 'active' : '' }}" href="{!! route('requestedRestaurants.index') !!}">@if($icons)
+                            <i class="nav-icon fa fa-reorder"></i>@endif<p>{{trans('lang.requested_restaurants_plural')}}</p></a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('restaurants*') ? 'active' : '' }}" href="{!! route('restaurants.index') !!}">@if($icons)
                             <i class="nav-icon fa fa-cutlery"></i>@endif<p>{{trans('lang.restaurant_plural')}}</p></a>
@@ -139,9 +143,15 @@
     </li>
 @endcan
 
+@can('coupons.index')
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('coupons*') ? 'active' : '' }}" href="{!! route('coupons.index') !!}">@if($icons)<i class="nav-icon fa fa-ticket"></i>@endif<p>{{trans('lang.coupon_plural')}} <span class="right badge badge-danger">New</span></p></a>
+    </li>
+@endcan
+
 @can('drivers.index')
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('drivers*') ? 'active' : '' }}" href="{!! route('drivers.index') !!}">@if($icons)<i class="nav-icon fa fa-car"></i>@endif<p>{{trans('lang.driver_plural')}} <span class="right badge badge-danger">New</span> </p></a>
+        <a class="nav-link {{ Request::is('drivers*') ? 'active' : '' }}" href="{!! route('drivers.index') !!}">@if($icons)<i class="nav-icon fa fa-car"></i>@endif<p>{{trans('lang.driver_plural')}} </p></a>
     </li>
 @endcan
 
@@ -222,8 +232,8 @@
 @endcan
 
 @can('app-settings')
-    <li class="nav-item has-treeview {{ Request::is('settings/mobile*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ Request::is('settings/mobile*') ? 'active' : '' }}">
+    <li class="nav-item has-treeview {{ Request::is('settings/mobile*') || Request::is('slides*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ Request::is('settings/mobile*') || Request::is('slides*') ? 'active' : '' }}">
             @if($icons)<i class="nav-icon fa fa-mobile"></i>@endif
             <p>
                 {{trans('lang.mobile_menu')}}
@@ -243,6 +253,19 @@
                     </p>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{!! url('settings/mobile/home') !!}" class="nav-link {{  Request::is('settings/mobile/home*') ? 'active' : '' }}">
+                    @if($icons)<i class="nav-icon fa fa-home"></i> @endif <p>{{trans('lang.mobile_home')}}
+                        <span class="right badge badge-danger">New</span></p>
+                </a>
+            </li>
+
+            @can('slides.index')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('slides*') ? 'active' : '' }}" href="{!! route('slides.index') !!}">@if($icons)<i class="nav-icon fa fa-magic"></i>@endif<p>{{trans('lang.slide_plural')}} <span class="right badge badge-danger">New</span></p></a>
+                </li>
+            @endcan
         </ul>
 
     </li>
@@ -362,8 +385,4 @@
         </ul>
     </li>
 @endcan
-
-
-
-
 

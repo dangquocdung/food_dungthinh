@@ -47,7 +47,7 @@ class NotificationAPIController extends Controller
             $this->notificationRepository->pushCriteria(new RequestCriteria($request));
             $this->notificationRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $notifications = $this->notificationRepository->all();
 

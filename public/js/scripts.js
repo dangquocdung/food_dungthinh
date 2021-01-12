@@ -21,6 +21,13 @@ $(document).ready(function () {
             height: 200
         });
     }
+    if ($('.datepicker').length > 0) {
+        $('.datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            maxViewMode: 2,
+            todayHighlight: true
+        });
+    }
     if ($('select.select2').length > 0) {
         options = {};
         select2 = $('select.select2');

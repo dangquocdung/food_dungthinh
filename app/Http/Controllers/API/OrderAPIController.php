@@ -1,7 +1,7 @@
 <?php
 /**
  * File name: OrderAPIController.php
- * Last modified: 2020.06.08 at 20:36:19
+ * Last modified: 2020.06.11 at 16:10:52
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
  */
@@ -9,21 +9,22 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Criteria\Orders\OrdersOfStatusesCriteria;
+use App\Criteria\Orders\OrdersOfUserCriteria;
 use App\Events\OrderChangedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Notifications\AssignedOrder;
 use App\Notifications\NewOrder;
 use App\Notifications\StatusChangedOrder;
 use App\Repositories\CartRepository;
+use App\Repositories\FoodOrderRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
-use App\Repositories\FoodOrderRepository;
 use App\Repositories\UserRepository;
-use Braintree\Gateway;
 use Flash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -81,8 +82,10 @@ class OrderAPIController extends Controller
         try {
             $this->orderRepository->pushCriteria(new RequestCriteria($request));
             $this->orderRepository->pushCriteria(new LimitOffsetCriteria($request));
+            $this->orderRepository->pushCriteria(new OrdersOfStatusesCriteria($request));
+            $this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $orders = $this->orderRepository->all();
 
@@ -105,7 +108,7 @@ class OrderAPIController extends Controller
                 $this->orderRepository->pushCriteria(new RequestCriteria($request));
                 $this->orderRepository->pushCriteria(new LimitOffsetCriteria($request));
             } catch (RepositoryException $e) {
-                Flash::error($e->getMessage());
+                return $this->sendError($e->getMessage());
             }
             $order = $this->orderRepository->findWithoutFail($id);
         }
@@ -265,7 +268,14 @@ class OrderAPIController extends Controller
 
             if (setting('enable_notifications', false)) {
                 if (isset($input['order_status_id']) && $input['order_status_id'] != $oldOrder->order_status_id) {
-            Notification::send([$order->user], new StatusChangedOrder($order));
+                    Notification::send([$order->user], new StatusChangedOrder($order));
+                }
+
+                if (isset($input['driver_id']) && ($input['driver_id'] != $oldOrder['driver_id'])) {
+                    $driver = $this->userRepository->findWithoutFail($input['driver_id']);
+                    if (!empty($driver)) {
+                        Notification::send([$driver], new AssignedOrder($order));
+                    }
                 }
             }
 

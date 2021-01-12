@@ -1,7 +1,7 @@
 <?php
 /**
  * File name: Permissions.php
- * Last modified: 2020.05.24 at 18:15:55
+ * Last modified: 2020.05.25 at 16:25:18
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
  */

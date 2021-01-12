@@ -1,10 +1,9 @@
 <?php
 /**
  * File name: api.php
- * Last modified: 2020.04.30 at 08:21:08
+ * Last modified: 2020.08.20 at 17:21:16
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
- *
  */
 
 /*
@@ -25,6 +24,15 @@ Route::prefix('driver')->group(function () {
     Route::get('user', 'API\Driver\UserAPIController@user');
     Route::get('logout', 'API\Driver\UserAPIController@logout');
     Route::get('settings', 'API\Driver\UserAPIController@settings');
+});
+
+Route::prefix('manager')->group(function () {
+    Route::post('login', 'API\Manager\UserAPIController@login');
+    Route::post('register', 'API\Manager\UserAPIController@register');
+    Route::post('send_reset_link_email', 'API\UserAPIController@sendResetLinkEmail');
+    Route::get('user', 'API\Manager\UserAPIController@user');
+    Route::get('logout', 'API\Manager\UserAPIController@logout');
+    Route::get('settings', 'API\Manager\UserAPIController@settings');
 });
 
 
@@ -50,6 +58,9 @@ Route::resource('extra_groups', 'API\ExtraGroupAPIController');
 Route::resource('faqs', 'API\FaqAPIController');
 Route::resource('restaurant_reviews', 'API\RestaurantReviewAPIController');
 Route::resource('currencies', 'API\CurrencyAPIController');
+Route::resource('slides', 'API\SlideAPIController')->except([
+    'show'
+]);
 
 Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['role:driver']], function () {
@@ -63,14 +74,12 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::group(['middleware' => ['role:manager']], function () {
         Route::prefix('manager')->group(function () {
-            
-            Route::resource('drivers', 'API\DriverAPIController');
-
-            Route::resource('earnings', 'API\EarningAPIController');
-
-            Route::resource('driversPayouts', 'API\DriversPayoutAPIController');
-
-            Route::resource('restaurantsPayouts', 'API\RestaurantsPayoutAPIController');
+            Route::post('users/{id}', 'API\UserAPIController@update');
+            Route::get('users/drivers_of_restaurant/{id}', 'API\Manager\UserAPIController@driversOfRestaurant');
+            Route::get('dashboard/{id}', 'API\DashboardAPIController@manager');
+            Route::resource('restaurants', 'API\Manager\RestaurantAPIController');
+            Route::resource('faq_categories', 'API\FaqCategoryAPIController');
+            Route::resource('faqs', 'API\FaqAPIController');
         });
     });
     Route::post('users/{id}', 'API\UserAPIController@update');
@@ -93,4 +102,16 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('carts', 'API\CartAPIController');
 
     Route::resource('delivery_addresses', 'API\DeliveryAddressAPIController');
+
+    Route::resource('drivers', 'API\DriverAPIController');
+
+    Route::resource('earnings', 'API\EarningAPIController');
+
+    Route::resource('driversPayouts', 'API\DriversPayoutAPIController');
+
+    Route::resource('restaurantsPayouts', 'API\RestaurantsPayoutAPIController');
+
+    Route::resource('coupons', 'API\CouponAPIController')->except([
+        'show'
+    ]);
 });

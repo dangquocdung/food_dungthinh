@@ -1,4 +1,10 @@
 <?php
+/**
+ * File name: FavoriteDataTable.php
+ * Last modified: 2020.05.23 at 15:06:15
+ * Author: SmarterVision - https://codecanyon.net/user/smartervision
+ * Copyright (c) 2020
+ */
 
 namespace App\DataTables;
 
@@ -69,7 +75,7 @@ class FavoriteDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
+            ->addAction(['title'=>trans('lang.actions'),'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
             ->parameters(array_merge(
                 config('datatables-buttons.parameters'), [
                     'language' => json_decode(

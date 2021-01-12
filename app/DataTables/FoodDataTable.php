@@ -43,6 +43,9 @@ class FoodDataTable extends DataTable
             ->editColumn('discount_price', function ($food) {
                 return getPriceColumn($food,'discount_price');
             })
+            ->editColumn('weight', function ($food) {
+                return $food['weight'].' '.$food['unit'];
+            })
             ->editColumn('updated_at', function ($food) {
                 return getDateColumn($food, 'updated_at');
             })
@@ -98,7 +101,7 @@ class FoodDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
+            ->addAction(['title'=>trans('lang.actions'),'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
             ->parameters(array_merge(
                 config('datatables-buttons.parameters'), [
                     'language' => json_decode(

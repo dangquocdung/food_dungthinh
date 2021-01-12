@@ -41,7 +41,7 @@ class ExtraGroupAPIController extends Controller
             $this->extraGroupRepository->pushCriteria(new RequestCriteria($request));
             $this->extraGroupRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $extraGroups = $this->extraGroupRepository->all();
 

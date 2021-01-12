@@ -44,7 +44,7 @@ class RestaurantReviewAPIController extends Controller
             $this->restaurantReviewRepository->pushCriteria(new RequestCriteria($request));
             $this->restaurantReviewRepository->pushCriteria(new LimitOffsetCriteria($request));
         } catch (RepositoryException $e) {
-            Flash::error($e->getMessage());
+            return $this->sendError($e->getMessage());
         }
         $restaurantReviews = $this->restaurantReviewRepository->all();
 

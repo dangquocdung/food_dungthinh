@@ -46,6 +46,9 @@ class RestaurantDataTable extends DataTable
             ->editColumn('available_for_delivery', function ($food) {
                 return getBooleanColumn($food, 'available_for_delivery');
             })
+            ->editColumn('active', function ($restaurant) {
+                return getBooleanColumn($restaurant, 'active');
+            })
             ->addColumn('action', 'restaurants.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 
@@ -97,7 +100,7 @@ class RestaurantDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
+            ->addAction(['title'=>trans('lang.actions'),'width' => '80px', 'printable' => false, 'responsivePriority' => '100'])
             ->parameters(array_merge(
                 config('datatables-buttons.parameters'), [
                     'language' => json_decode(
@@ -148,6 +151,11 @@ class RestaurantDataTable extends DataTable
             [
                 'data' => 'closed',
                 'title' => trans('lang.restaurant_closed'),
+
+            ],
+            [
+                'data' => 'active',
+                'title' => trans('lang.restaurant_active'),
 
             ],
             [

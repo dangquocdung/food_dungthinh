@@ -52,12 +52,14 @@ class RazorPayController extends ParentOrderController
     {
         try{
             $user = $this->userRepository->findByField('api_token', $request->get('api_token'))->first();
-            $delivery_id = $request->get('delivery_address_id');
-            $deliveryAddress = $this->deliveryAddressRepo->findWithoutFail($delivery_id);
+            $coupon = $this->couponRepository->findByField('code', $request->get('coupon_code'))->first();
+            $deliveryId = $request->get('delivery_address_id');
+            $deliveryAddress = $this->deliveryAddressRepo->findWithoutFail($deliveryId);
             if (!empty($user)) {
                 $this->order->user = $user;
                 $this->order->user_id = $user->id;
-                $this->order->delivery_address_id = $delivery_id;
+                $this->order->delivery_address_id = $deliveryId;
+                $this->coupon = $coupon;
                 $razorPayCart = $this->getOrderData();
 
                 $razorPayOrder = $this->api->order->create($razorPayCart);
@@ -78,11 +80,11 @@ class RazorPayController extends ParentOrderController
                 }
             }else{
                 Flash::error("Error processing RazorPay user not found");
-                return redirect(url('payments.failed'));
+                return redirect(route('payments.failed'));
             }
         }catch (\Exception $e){
             Flash::error("Error processing RazorPay payment for your order :" . $e->getMessage());
-            return redirect(url('payments.failed'));
+            return redirect(route('payments.failed'));
         }
     }
 
@@ -93,7 +95,7 @@ class RazorPayController extends ParentOrderController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function paySuccess(int $userId, int $deliveryAddressId, Request $request)
+    public function paySuccess(Request $request, int $userId, int $deliveryAddressId,string $couponCode = null)
     {
         $data = $request->all();
 
@@ -101,6 +103,7 @@ class RazorPayController extends ParentOrderController
 
         $this->order->user_id = $userId;
         $this->order->user = $this->userRepository->findWithoutFail($userId);
+        $this->coupon = $this->couponRepository->findByField('code', $couponCode)->first();
         $this->order->delivery_address_id = $deliveryAddressId;
 
 
@@ -116,7 +119,7 @@ class RazorPayController extends ParentOrderController
             return redirect(url('payments/razorpay'));
         }else{
             Flash::error("Error processing RazorPay payment for your order");
-            return redirect(url('payments.failed'));
+            return redirect(route('payments.failed'));
         }
 
     }
@@ -170,6 +173,10 @@ class RazorPayController extends ParentOrderController
             'callback_url' => url('payments/razorpay/pay-success',['user_id'=>$user->id,'delivery_address_id'=>$deliveryAddress->id]),
 
         );
+
+        if (isset($this->coupon)){
+            $fields['callback_url'] = url('payments/razorpay/pay-success',['user_id'=>$user->id,'delivery_address_id'=>$deliveryAddress->id, 'coupon_code' => $this->coupon->code]);
+        }
 
         if (!empty($deliveryAddress)) {
             $fields ['notes'] = [
