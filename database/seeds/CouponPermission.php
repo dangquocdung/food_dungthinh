@@ -11,9 +11,7 @@ class CouponPermission extends Seeder
      */
     public function run()
     {
-        
-	    \DB::table('permissions')->delete();
-
+        try {
             \DB::table('permissions')->insert(array(
 
                 array(
@@ -71,8 +69,6 @@ class CouponPermission extends Seeder
                 ),
             ));
 
-	    \DB::table('role_has_permissions')->delete();
-
             \DB::table('role_has_permissions')->insert(array(
                 array(
                     'permission_id' => 183,
@@ -125,6 +121,7 @@ class CouponPermission extends Seeder
                 ),
 
             ));
-      
+        } catch (Exception $exception) {
+        }
     }
 }

@@ -27,6 +27,7 @@ $factory->define(Restaurant::class, function (Faker $faker) {
         'delivery_range' => $faker->randomFloat(2, 5, 100),
         'default_tax' => $faker->randomFloat(2, 5, 30), //added
         'closed' => $faker->boolean,
+        'active' => 1,
         'available_for_delivery' => $faker->boolean,
     ];
 });

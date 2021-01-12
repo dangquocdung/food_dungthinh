@@ -1600,6 +1600,15 @@ class DemoPermissionsPermissionsTableSeeder extends Seeder
                     'updated_at' => '2020-03-29 14:58:09',
                     'deleted_at' => NULL,
                 ),
+            175 =>
+                array (
+                    'id' => 182,
+                    'name' => 'requestedRestaurants.index',
+                    'guard_name' => 'web',
+                    'created_at' => '2020-08-13 14:58:02',
+                    'updated_at' => '2020-08-13 14:58:02',
+                    'deleted_at' => NULL,
+                ),
         ));
 
 

@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-
     public function run()
     {
-	$this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
         $this->call(CustomFieldsTableSeeder::class);
         $this->call(CustomFieldValuesTableSeeder::class);
         $this->call(AppSettingsTableSeeder::class);
