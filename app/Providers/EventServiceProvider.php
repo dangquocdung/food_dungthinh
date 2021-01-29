@@ -14,6 +14,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\RestaurantChangedEvent' => [
             'App\Listeners\UpdateRestaurantEarningTableListener',
+            'App\Listeners\ChangeClientRoleToManager',
         ],
         'App\Events\UserRoleChangedEvent' => [
             'App\Listeners\UpdateUserDriverTableListener',

@@ -1,16 +1,18 @@
 <?php
 /**
  * File name: ParentOrderController.php
- * Last modified: 2020.06.10 at 14:42:24
+ * Last modified: 2020.06.11 at 16:10:52
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
  */
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Notifications\NewOrder;
 use App\Repositories\CartRepository;
+use App\Repositories\CouponRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderStatusRepository;
@@ -45,10 +47,16 @@ abstract class ParentOrderController extends Controller
 
     /** @var Order */
     protected $order;
+    /** @var Coupon */
+    protected $coupon;
     /**
      * @var OrderStatusRepository
      */
     protected $orderStatusRepository;
+    /**
+     * @var CouponRepository
+     */
+    protected $couponRepository;
 
 
     /**
@@ -60,7 +68,7 @@ abstract class ParentOrderController extends Controller
      * @param NotificationRepository $notificationRepo
      * @param UserRepository $userRepository
      */
-    public function __construct(OrderRepository $orderRepo, FoodOrderRepository $foodOrderRepository, CartRepository $cartRepo, PaymentRepository $paymentRepo, NotificationRepository $notificationRepo, UserRepository $userRepository, OrderStatusRepository $orderStatusRepository)
+    public function __construct(OrderRepository $orderRepo, FoodOrderRepository $foodOrderRepository, CartRepository $cartRepo, PaymentRepository $paymentRepo, NotificationRepository $notificationRepo, UserRepository $userRepository, OrderStatusRepository $orderStatusRepository, CouponRepository $couponRepository)
     {
         parent::__construct();
         $this->orderRepository = $orderRepo;
@@ -70,7 +78,9 @@ abstract class ParentOrderController extends Controller
         $this->paymentRepository = $paymentRepo;
         $this->notificationRepository = $notificationRepo;
         $this->orderStatusRepository = $orderStatusRepository;
+        $this->couponRepository = $couponRepository;
         $this->order = new Order();
+        $this->coupon = new Coupon();
 
         $this->__init();
     }
@@ -104,7 +114,7 @@ abstract class ParentOrderController extends Controller
     {
         $carts = $this->order->user->cart;
         foreach ($carts as $_cart) {
-            $price = $_cart->food->getPrice();
+            $price = $_cart->food->applyCoupon($this->coupon);
             foreach ($_cart->extras as $option) {
                 $price += $option->price;
             }
@@ -160,7 +170,7 @@ abstract class ParentOrderController extends Controller
             $foods = [
                 'order_id' => $this->order->id,
                 'food_id' => $cart->food_id,
-                'price' => $cart->food->getPrice(),
+                'price' => $cart->food->applyCoupon($this->coupon),
                 'quantity' => $cart->quantity,
                 'options' => $cart->extras->pluck('id')->toArray(),
             ];

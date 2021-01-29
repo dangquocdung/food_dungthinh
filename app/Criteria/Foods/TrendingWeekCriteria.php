@@ -59,12 +59,15 @@ class TrendingWeekCriteria implements CriteriaInterface
             POW(69.1 * ($areaLon - restaurants.longitude) * COS(restaurants.latitude / 57.3), 2)) AS area, count(foods.id) as food_count"), 'foods.*')
                 ->join('food_orders', 'foods.id', '=', 'food_orders.food_id')
                 ->whereBetween('food_orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->where('restaurants.active','1')
                 ->orderBy('food_count', 'desc')
                 ->orderBy('area')
                 ->groupBy('foods.id');
         } else {
             return $model->join('food_orders', 'foods.id', '=', 'food_orders.food_id')
                 ->whereBetween('food_orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                ->join('restaurants', 'restaurants.id', '=', 'foods.restaurant_id')
+                ->where('restaurants.active','1')
                 ->groupBy('foods.id')
                 ->orderBy('food_count', 'desc')
                 ->select('foods.*', DB::raw('count(foods.id) as food_count'));

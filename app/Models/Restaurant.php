@@ -24,8 +24,9 @@ use Spatie\MediaLibrary\Models\Media;
  * @property \Illuminate\Database\Eloquent\Collection Food
  * @property \Illuminate\Database\Eloquent\Collection Gallery
  * @property \Illuminate\Database\Eloquent\Collection RestaurantsReview
+ * @property \Illuminate\Database\Eloquent\Collection[] discountables
  * @property \Illuminate\Database\Eloquent\Collection[] cuisines
- * @property \Illuminate\Database\Eloquent\Collection User
+ * @property \Illuminate\Database\Eloquent\Collection[] User
  * @property \Illuminate\Database\Eloquent\Collection[] Restaurant
  * @property string name
  * @property string description
@@ -41,6 +42,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @property double delivery_range
  * @property boolean available_for_delivery
  * @property boolean closed
+ * @property boolean active
  */
 class Restaurant extends Model implements HasMedia
 {
@@ -66,7 +68,8 @@ class Restaurant extends Model implements HasMedia
         'delivery_range',
         'available_for_delivery',
         'closed',
-        'information'
+        'information',
+        'active',
     ];
 
     /**
@@ -89,7 +92,8 @@ class Restaurant extends Model implements HasMedia
         'delivery_range'=>'double',
         'available_for_delivery'=>'boolean',
         'closed'=>'boolean',
-        'information' => 'string'
+        'information' => 'string',
+        'active' =>'boolean'
     ];
 
     /**
@@ -99,11 +103,11 @@ class Restaurant extends Model implements HasMedia
      */
     public static $adminRules = [
         'name' => 'required',
-        // 'description' => 'required',
+        'description' => 'required',
         'delivery_fee' => 'nullable|numeric|min:0',
         'longitude' => 'required|numeric',
         'latitude' => 'required|numeric',
-        // 'admin_commission' => 'required|numeric|min:0',
+        'admin_commission' => 'required|numeric|min:0',
     ];
 
     /**
@@ -247,6 +251,11 @@ class Restaurant extends Model implements HasMedia
     public function cuisines()
     {
         return $this->belongsToMany(\App\Models\Cuisine::class, 'restaurant_cuisines');
+    }
+
+    public function discountables()
+    {
+        return $this->morphMany('App\Models\Discountable', 'discountable');
     }
 
 

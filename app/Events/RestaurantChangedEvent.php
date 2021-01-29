@@ -11,17 +11,20 @@ class RestaurantChangedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $restaurant;
+    public $newRestaurant;
+
+    public $oldRestaurant;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Restaurant $restaurant)
+    public function __construct(Restaurant $newRestaurant, Restaurant $oldRestaurant)
     {
         //
-        $this->restaurant = $restaurant;
+        $this->newRestaurant = $newRestaurant;
+        $this->oldRestaurant = $oldRestaurant;
     }
 
 }

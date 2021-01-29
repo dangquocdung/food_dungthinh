@@ -10,6 +10,7 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Criteria\Restaurants\ActiveCriteria;
 use App\Criteria\Restaurants\RestaurantsOfCuisinesCriteria;
 use App\Criteria\Restaurants\NearCriteria;
 use App\Criteria\Restaurants\PopularCriteria;
@@ -71,6 +72,7 @@ class RestaurantAPIController extends Controller
             } else {
                 $this->restaurantRepository->pushCriteria(new NearCriteria($request));
             }
+            $this->restaurantRepository->pushCriteria(new ActiveCriteria());
             $restaurants = $this->restaurantRepository->all();
 
         } catch (RepositoryException $e) {

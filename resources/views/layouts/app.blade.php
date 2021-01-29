@@ -21,7 +21,7 @@
 <!-- jvectormap -->
 {{--<link rel="stylesheet" href="{{asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}">--}}
 <!-- Date Picker -->
-{{--<link rel="stylesheet" href="{{asset('plugins/datepicker/datepicker3.css')}}">--}}
+<link rel="stylesheet" href="{{asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}">
 <!-- Daterange picker -->
 {{--<link rel="stylesheet" href="{{asset('plugins/daterangepicker/daterangepicker-bs3.css')}}">--}}
 {{--<!-- bootstrap wysihtml5 - text editor -->--}}
@@ -248,7 +248,7 @@
     {{--<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js')}}"></script>--}}
     {{--<script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>--}}
     <!-- datepicker -->
-    {{--<script src="{{asset('plugins/datepicker/bootstrap-datepicker.js')}}"></script>--}}
+    <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <!-- Bootstrap WYSIHTML5 -->
     {{--<script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>--}}
     <!-- Slimscroll -->
@@ -266,33 +266,5 @@
 
     <script src="{{asset('js/scripts.js')}}"></script>
     @stack('scripts')
-
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-        window.fbAsyncInit = function() {
-            FB.init({
-            xfbml            : true,
-            version          : 'v4.0'
-            });
-        };
-
-        (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-    <!-- Your customer chat code -->
-    <div class="fb-customerchat"
-        attribution=setup_tool
-        page_id="116575380138718"
-        theme_color="#0084ff">
-    </div>
-
-
 </body>
 </html>

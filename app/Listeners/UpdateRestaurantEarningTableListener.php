@@ -31,7 +31,7 @@ class UpdateRestaurantEarningTableListener
      */
     public function handle($event)
     {
-        $uniqueInput = ['restaurant_id'=>$event->restaurant->id];
+        $uniqueInput = ['restaurant_id'=>$event->newRestaurant->id];
         try {
             $this->earningRepository->updateOrCreate($uniqueInput);
         } catch (ValidatorException $e) {

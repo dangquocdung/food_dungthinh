@@ -58,4 +58,11 @@ class RestaurantRepository extends BaseRepository implements CacheableInterface
             ->where('user_restaurants.user_id', auth()->id())->get();
     }
 
+    public function myActiveRestaurants()
+    {
+        return Restaurant::join("user_restaurants", "restaurant_id", "=", "restaurants.id")
+            ->where('user_restaurants.user_id', auth()->id())
+            ->where('restaurants.active','=','1')->get();
+    }
+
 }

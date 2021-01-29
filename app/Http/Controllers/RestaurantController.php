@@ -10,9 +10,13 @@
 namespace App\Http\Controllers;
 
 use App\Criteria\Restaurants\RestaurantsOfUserCriteria;
+use App\Criteria\Users\AdminsCriteria;
+use App\Criteria\Users\ClientsCriteria;
 use App\Criteria\Users\DriversCriteria;
+use App\Criteria\Users\ManagersClientsCriteria;
 use App\Criteria\Users\ManagersCriteria;
 use App\DataTables\RestaurantDataTable;
+use App\DataTables\RequestedRestaurantDataTable;
 use App\Events\RestaurantChangedEvent;
 use App\Http\Requests\CreateRestaurantRequest;
 use App\Http\Requests\UpdateRestaurantRequest;
@@ -72,6 +76,17 @@ class RestaurantController extends Controller
     }
 
     /**
+     * Display a listing of the Restaurant.
+     *
+     * @param RestaurantDataTable $restaurantDataTable
+     * @return Response
+     */
+    public function requestedRestaurants(RequestedRestaurantDataTable $requestedRestaurantDataTable)
+    {
+        return $requestedRestaurantDataTable->render('restaurants.requested');
+    }
+
+    /**
      * Show the form for creating a new Restaurant.
      *
      * @return Response
@@ -103,7 +118,7 @@ class RestaurantController extends Controller
     public function store(CreateRestaurantRequest $request)
     {
         $input = $request->all();
-        if (auth()->user()->hasRole('manager')) {
+        if (auth()->user()->hasRole(['manager','client'])) {
             $input['users'] = [auth()->id()];
         }
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->restaurantRepository->model());
@@ -115,7 +130,7 @@ class RestaurantController extends Controller
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($restaurant, 'image');
             }
-            event(new RestaurantChangedEvent($restaurant));
+            event(new RestaurantChangedEvent($restaurant, $restaurant));
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
@@ -164,8 +179,11 @@ class RestaurantController extends Controller
             Flash::error(__('lang.not_found', ['operator' => __('lang.restaurant')]));
             return redirect(route('restaurants.index'));
         }
-
+        if($restaurant['active'] == 0){
+            $user = $this->userRepository->getByCriteria(new ManagersClientsCriteria())->pluck('name', 'id');
+        } else {
         $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
+        }
         $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
         $cuisine = $this->cuisineRepository->pluck('name', 'id');
 
@@ -196,9 +214,9 @@ class RestaurantController extends Controller
     public function update($id, UpdateRestaurantRequest $request)
     {
         $this->restaurantRepository->pushCriteria(new RestaurantsOfUserCriteria(auth()->id()));
-        $restaurant = $this->restaurantRepository->findWithoutFail($id);
+        $oldRestaurant = $this->restaurantRepository->findWithoutFail($id);
 
-        if (empty($restaurant)) {
+        if (empty($oldRestaurant)) {
             Flash::error('Restaurant not found');
             return redirect(route('restaurants.index'));
         }
@@ -216,7 +234,7 @@ class RestaurantController extends Controller
                 $restaurant->customFieldsValues()
                     ->updateOrCreate(['custom_field_id' => $value['custom_field_id']], $value);
             }
-            event(new RestaurantChangedEvent($restaurant));
+            event(new RestaurantChangedEvent($restaurant, $oldRestaurant));
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }

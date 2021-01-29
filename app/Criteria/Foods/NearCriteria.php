@@ -1,7 +1,7 @@
 <?php
 /**
  * File name: NearCriteria.php
- * Last modified: 2020.05.26 at 14:56:57
+ * Last modified: 2020.06.11 at 16:10:52
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
  */
@@ -57,10 +57,15 @@ class NearCriteria implements CriteriaInterface
             POW(69.1 * (restaurants.latitude - $areaLat), 2) +
             POW(69.1 * ($areaLon - restaurants.longitude) * COS(restaurants.latitude / 57.3), 2)) AS area"), "foods.*")
                 ->groupBy("foods.id")
+                ->where('restaurants.active','1')
                 ->orderBy('restaurants.closed')
                 ->orderBy('area');
         } else {
-            return $model->join('restaurants', 'restaurants.id', '=', 'foods.restaurant_id')->groupBy("foods.id")->select("foods.*")->orderBy('restaurants.closed');
+            return $model->join('restaurants', 'restaurants.id', '=', 'foods.restaurant_id')
+                ->groupBy("foods.id")
+                ->where('restaurants.active','1')
+                ->select("foods.*")
+                ->orderBy('restaurants.closed');
         }
     }
 }

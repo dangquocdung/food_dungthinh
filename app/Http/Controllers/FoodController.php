@@ -82,7 +82,7 @@ class FoodController extends Controller
         if (auth()->user()->hasRole('admin')) {
             $restaurant = $this->restaurantRepository->pluck('name', 'id');
         } else {
-            $restaurant = $this->restaurantRepository->myRestaurants()->pluck('name', 'id');
+            $restaurant = $this->restaurantRepository->myActiveRestaurants()->pluck('name', 'id');
         }
         $hasCustomField = in_array($this->foodRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {

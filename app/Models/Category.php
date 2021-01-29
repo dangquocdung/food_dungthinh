@@ -21,6 +21,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @version April 11, 2020, 1:57 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection Food
+ * @property \Illuminate\Database\Eloquent\Collection[] discountables
  * @property string name
  * @property string description
  */
@@ -146,6 +147,11 @@ class Category extends Model implements HasMedia
     public function restaurants()
     {
         return $this->belongsToMany(\App\Models\Restaurant::class, 'foods');
+    }
+
+    public function discountables()
+    {
+        return $this->morphMany('App\Models\Discountable', 'discountable');
     }
 
 

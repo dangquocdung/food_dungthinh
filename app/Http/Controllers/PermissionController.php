@@ -1,4 +1,10 @@
 <?php
+/**
+ * File name: PermissionController.php
+ * Last modified: 2020.05.21 at 18:10:04
+ * Author: SmarterVision - https://codecanyon.net/user/smartervision
+ * Copyright (c) 2020
+ */
 
 namespace App\Http\Controllers;
 

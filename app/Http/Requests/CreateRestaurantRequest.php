@@ -34,7 +34,7 @@ class CreateRestaurantRequest extends FormRequest
     {
         if (auth()->user()->hasRole('admin')) {
             return Restaurant::$adminRules;
-        } elseif (auth()->user()->hasRole('manager')) {
+        } elseif (auth()->user()->hasAnyRole(['manager', 'client'])) {
             return Restaurant::$managerRules;
         }
     }

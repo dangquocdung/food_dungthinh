@@ -1,4 +1,10 @@
 <?php
+/**
+ * File name: RegisterController.php
+ * Last modified: 2020.05.21 at 17:23:39
+ * Author: SmarterVision - https://codecanyon.net/user/smartervision
+ * Copyright (c) 2020
+ */
 
 namespace App\Http\Controllers\Auth;
 

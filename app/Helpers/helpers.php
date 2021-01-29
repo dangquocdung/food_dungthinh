@@ -1,7 +1,7 @@
 <?php
 /**
  * File name: helpers.php
- * Last modified: 2020.05.27 at 18:31:49
+ * Last modified: 2020.06.11 at 16:10:52
  * Author: SmarterVision - https://codecanyon.net/user/smartervision
  * Copyright (c) 2020
  */
