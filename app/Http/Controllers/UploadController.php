@@ -44,10 +44,10 @@ class UploadController extends Controller
         $array = explode('.', $conversion . $filename);
         $extension = strtolower(end($array));
         if (isset($filename)) {
-            return response()->file(storage_path($id . '/' . $conversion . '/' . $filename));
+            return response()->file(storage_path('app/public/' . $id . '/' . $conversion . '/' . $filename));
         } else {
             $filename = $conversion;
-            return response()->file(storage_path($id . '/' . $filename));
+            return response()->file(storage_path('app/public/' . $id . '/' . $filename));
         }
 
     }
